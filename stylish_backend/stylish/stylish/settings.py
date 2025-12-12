@@ -149,12 +149,12 @@ JWT_COOKIE_NAME = 'refresh_token'
 JWT_COOKIE_SAMESITE = 'Lax' # Use 'Strict' if possible
 
 #cache settings
-CACHED={
+CACHES={
     'default':{
         'BACKEND':'django_redis.cache.RedisCache',
         'LOCATION':config('REDIS_URL',default='redis://127.0.0.1:6379/1'),
         'OPTIONS':{
-            'CLIENT_CLASS':'django_redis.client.Default',
+            'CLIENT_CLASS':'django_redis.client.DefaultClient',
             'SOCKET_CONNECT_TIMEOUT':5,
             'SOCKET_TIMEOUT':5,
             'IGNORE_EXCEPTIONS':True
@@ -165,7 +165,7 @@ CACHED={
 
 #REST Framework settings
 REST_FRAMEWORK={
-    'DEFAULT_AUTHENTICATION_CLASSES':('rest_framework_simplejwt.authentication.JWTAuthentication'),
+    'DEFAULT_AUTHENTICATION_CLASSES':('rest_framework_simplejwt.authentication.JWTAuthentication',),
     'DEFAULT_PERMISSION_CLASSES':('rest_framework.permissions.IsAuthenticated',),
     'DEFAULT_THROTTLE_CLASSES':{
         'rest_framework.throttling.AnonRateThrottle',

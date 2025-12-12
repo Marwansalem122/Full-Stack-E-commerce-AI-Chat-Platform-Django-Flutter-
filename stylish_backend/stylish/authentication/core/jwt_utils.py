@@ -48,8 +48,8 @@ class TokenManager:
         'access_token':str(access_token),
         'refresh_token':str(refresh),
         'token_type':'Bearer',
-        'expires_in':int(access_expiry.total_seconds),
-        'refresh_expires_in':int(refresh_expiry.total_seconds),
+        'expires_in':int(access_expiry.total_seconds()),
+        'refresh_expires_in':int(refresh_expiry.total_seconds()),
         'user_id':user.id,
         'issued_at':int(time.time())
       }

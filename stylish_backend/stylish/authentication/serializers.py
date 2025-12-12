@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import CustomUser
 class UserSerializer(serializers.ModelSerializer):
-  Profile_picture_url=serializers.SerializerMethodField()
+  profile_picture_url=serializers.SerializerMethodField()
   
   class Meta:
     model=CustomUser

@@ -32,7 +32,7 @@ class EmailService:
                 html_message = render_to_string('emails/verify_email.html', context)
                 
                 plain_message = f"""
-                Hellow {user.email}, 
+                Hello {user.email}, 
                 Please verify your email address by clicking the link below:
                 {verify_url}
                 Thank you, 

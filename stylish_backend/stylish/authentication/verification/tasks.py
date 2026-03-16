@@ -8,18 +8,18 @@ logger = logging.getLogger(__name__)
 
 @shared_task(
     bind = True, 
-    autoretry_for = (Exception,), 
+    autocert_for = (Exception,), 
     retry_kwargs = {'max_retries': 3}, 
     retry_backoff = True, 
     retry_back_off_max =60, 
     name = "authentication.verification.send_verification_email"
 )
 def send_verification_email_task(self, user_id: int):
-    """celery task to send a verificaiton email."""
+    """celery task to send a verification email."""
     try:
         user = User.objects.get(id=user_id)
         if not user.is_verified:
-            logger.info(f"Executing verificaiton email task for user: {user.email}")
+            logger.info(f"Executing verification email task for user: {user.email}")
             EmailService.send_verification_email(user)
         else:
             logger.info(f"Skipping verification email for already verified user: {user.email}")
@@ -27,14 +27,12 @@ def send_verification_email_task(self, user_id: int):
         logger.warning(f"User with ID {user_id} not found. Cannot send verification email.")
         
     except Exception as e:
-        logger.error(f"Failed to send verificaiton email for user {user_id} on attempt {self.request.retries}: {e}")
+        logger.error(f"Failed to send verification email for user {user_id} on attempt {self.request.retries}: {e}")
         raise e
-    
-
 
 @shared_task(
     bind = True, 
-    autoretry_for = (Exception,), 
+    autocert_for = (Exception,), 
     retry_kwargs = {'max_retries': 3}, 
     retry_backoff = True, 
     retry_back_off_max =60, 

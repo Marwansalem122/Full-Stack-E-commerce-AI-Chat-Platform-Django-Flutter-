@@ -1,16 +1,77 @@
-# stylish_admin
+# 🎨 Stylish Admin Frontend
 
-A new Flutter project.
+### Flutter Admin Dashboard (Clean Architecture + BLoC)
 
-## Getting Started
+The **Stylish Admin Frontend** is a scalable and maintainable **Flutter-based administration dashboard** built using **Clean Architecture** and the **BLoC pattern**.
 
-This project is a starting point for a Flutter application.
+This application consumes a RESTful API provided by the Django backend and is designed to manage products, inventory, and business analytics in a professional e-commerce environment.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🧱 Architecture
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The frontend strictly follows **Clean Architecture**, ensuring separation of concerns and long-term maintainability.
+
+```
+lib/
+├── presentation/ # UI, Pages, Widgets, BLoC
+├── domain/ # Entities, Use Cases, Repositories (abstract)
+├── data/ # API clients, DTOs, Repositories (implementation)
+└── core/ # Shared utilities, constants, error handling
+```
+
+---
+
+### Key Architectural Principles
+
+- Business logic is framework-independent
+- UI is driven by state (BLoC)
+- Dependency inversion between layers
+- Easily testable components
+
+---
+
+## ✨ Features
+
+- Admin authentication (JWT-based)
+- Product & category management
+- Inventory tracking
+- Sales overview dashboards
+- AI analytics interaction via backend APIs
+- Responsive UI (Web / Desktop / Mobile-ready)
+
+---
+
+## 🔄 State Management
+
+- **BLoC (Business Logic Component)**
+- Predictable and testable state transitions
+- Event-driven architecture
+
+---
+
+## 🔌 API Integration
+
+- RESTful communication with Django backend
+- Secure token-based authorization
+- Centralized error handling
+- DTO mapping between API and domain models
+
+---
+
+## 🧠 Technologies Used
+
+- Flutter
+- Dart
+- BLoC
+- Clean Architecture
+- REST APIs
+
+---
+
+## ▶️ Getting Started
+
+```bash
+flutter pub get
+flutter run
+```

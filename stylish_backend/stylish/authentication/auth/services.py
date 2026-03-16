@@ -18,7 +18,12 @@ logger=logging.getLogger(__name__)
 class AuthenticationService:
   '''Service class to handle authentication-related business logic'''
   @staticmethod
-  def register(email,password,phone_number=None,first_name=None,last_name=None,request_meta=None,request=None):
+  def register(
+      email,password,
+      phone_number=None,
+      first_name=None,last_name=None,
+      request_meta=None,request=None
+      ):
     '''Handle user registration with email and password'''
     if not email or not password:
       return False,{'success':False,'error':"Email and password are required."},400
@@ -46,7 +51,10 @@ class AuthenticationService:
         counter += 1
 
       # create new user
-      user=CustomUser.objects.create_user(email=email,password=password,username=username,is_verified=False)
+      user=CustomUser.objects.create_user(
+          email=email,password=password,
+          username=username,is_verified=False
+          )
       if first_name:
         user.first_name=first_name
         user.save(update_fields=['first_name'])
@@ -62,7 +70,9 @@ class AuthenticationService:
               send_verification_email_task.delay(user.id)
               logger.info(f"Queued verification email for new user: {user.email}")
             except Exception as e:
-                    logger.error(f"Failed to queue verification email task for user {user.id}: {str(e)}")
+                    logger.error(
+                        f"Failed to queue verification email task for user {user.id}: {str(e)}"
+                        )
                     
             # Serialize user data with request context
             context = {}
@@ -97,12 +107,19 @@ class AuthenticationService:
   def login(email, password, device_info = None, request_meta = None, request = None):
       """ Handle user login with email and password"""
       if not email or not password:
-          return False, {"success": False, "error": "Email and password are required."}, 400
+          return False, {
+              "success": False,
+              "error": "Email and password are required."
+              }, 400
       
       if request_meta:
-          logger.info(f"Login attempt from IP: {request_meta.get('REMOTE_ADDR')}, User-Agent : {request_meta.get('HTTP_USER_AGENT')}")
-          
-          
+          logger.info(
+              f"Login attempt from IP: {
+                  request_meta.get('REMOTE_ADDR')
+                  }, User-Agent : {
+                      request_meta.get('HTTP_USER_AGENT')
+                      }"
+             )
       try:
           # check for account lockout
           if cache.get(f"account_lockout: {email}"):
@@ -118,8 +135,8 @@ class AuthenticationService:
               user_exists = CustomUser.objects.filter(email = email).exists()
               if not user_exists:
                   logger.warning(f"Login attempt for non-existent email: {email}")
-                  failed_atempts = cache.get(f"failed_logins:{email}", 0)+1
-                  cache.set(f"failed_logins:{email}", failed_atempts, timeout=1800)
+                  failed_attempts = cache.get(f"failed_logins:{email}", 0)+1
+                  cache.set(f"failed_logins:{email}", failed_attempts, timeout=1800)
                   return False, {
                       "success": False, 
                       "error": "Invalid email or password"
@@ -150,7 +167,7 @@ class AuthenticationService:
                       "lockout": True
                   }, 403
                   
-              logger.waring(f"Failed loging attempt for email: {email}")
+              logger.waring(f"Failed login attempt for email: {email}")
               return False, {
                   "success": False, 
                   "error": "Invalid email or password"
@@ -174,7 +191,7 @@ class AuthenticationService:
                   
               serializer = UserSerializer(user, context = context)
           except Exception as serializer_error:
-              logger.error(f"User serilization error: {str(serializer_error)}")
+              logger.error(f"User serialization error: {str(serializer_error)}")
               return False, {
                   "success": False, 
                   "error": "User data serialization failed"
@@ -201,7 +218,13 @@ class AuthenticationService:
               
           # Log successful login
           if request_meta:
-              logger.info(f"Login successful for user: {user.email} from IP: {request_meta.get('REMOTE_ADDR')}") 
+              logger.info(
+                  f"Login successful for user: {
+                      user.email
+                      } from IP: {
+                          request_meta.get('REMOTE_ADDR')
+                          }"
+                      ) 
                   
           # Return successful response data
           return True, {
@@ -217,13 +240,13 @@ class AuthenticationService:
       except ValidationError as ve:
           logger.error(f"Validation error during login: {str(ve)}")
           return False, {
-              "succes": False, 
+              "success": False, 
               "error": f"Validation error: {str(ve)}"
           }, 400
           
       except Exception as e:
           logger.error(f"Unexpected login error: {str(e)}")
-          logger.error(f"Login error tracebacke: {traceback.format_exc()}")  
+          logger.error(f"Login error traceback: {traceback.format_exc()}")  
           
           return False, {
               "success": False, 

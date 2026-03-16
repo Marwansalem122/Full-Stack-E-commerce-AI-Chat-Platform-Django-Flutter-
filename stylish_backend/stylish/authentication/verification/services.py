@@ -62,15 +62,14 @@ class EmailVerificationService:
                 "data": {"is_verified": user.is_verified}, 
                 "message": "Could not check latest status, using existing information"
             }, 200
-            
-            
+    
     @staticmethod
-    def verify_email(uidb64, token):
+    def verify_email(uuidb64, token):
         """Verify email with token"""
-        is_valid, user, error = TokenVerifier.verify_token(uidb64, token)
+        is_valid, user, error = TokenVerifier.verify_token(uuidb64, token)
         
         if not is_valid:
-            logger.warning(f"Invalid token verification attempt with uidb64: {uidb64}")
+            logger.warning(f"Invalid token verification attempt with uuidb64: {uuidb64}")
             return False, {"success": False, "error": error or "Invalid verification link.Please request a new one."}, 400
         
         try:
@@ -83,7 +82,6 @@ class EmailVerificationService:
                     
                 else:
                     logger.info(f"Email verification attempt for already verified user: {user.id} ({user.email})")
-                    
                     
             cache_key = EmailVerificationService.get_verification_cache_key(user.id)
             cache.set(cache_key, True, timeout=3600)
@@ -181,10 +179,10 @@ class PasswordResetService:
             }, 200
             
     @staticmethod
-    def confirm_reset(uidb64, token, new_password):
+    def confirm_reset(uuidb64, token, new_password):
         """complete password reset with token and new password"""
         
-        is_valid, user, error = TokenVerifier.verify_token(uidb64, token)
+        is_valid, user, error = TokenVerifier.verify_token(uuidb64, token)
         
         if not is_valid:
             return False, {

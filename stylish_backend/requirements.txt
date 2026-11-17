@@ -1,0 +1,23 @@
+# Django
+Django>=5.2.8,<5.3
+djangorestframework>=3.16,<4
+
+# Authentication & JWT
+djangorestframework-simplejwt>=5.5,<6
+PyJWT>=2.10,<3
+
+# CORS
+django-cors-headers>=4.7,<5
+
+# Redis & Background Tasks
+django-redis>=5.4,<7
+celery[redis]>=5.5,<6
+
+# Environment Variables
+python-decouple>=3.8,<4
+
+# PostgreSQL
+psycopg[binary]>=3.2,<4
+
+# Image Processing
+Pillow>=11,<13

@@ -27,8 +27,13 @@ INSTALLED_APPS = [
       'corsheaders',
       'rest_framework',
     #Local apps
-    'authentication'
-    
+    'authentication',
+    'inventory',
+    'ecommerce',
+    'recommendations'
+    'ai_agents',
+    'analytics',
+    'core',
 ]
 
 MIDDLEWARE = [
